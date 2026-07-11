@@ -1,0 +1,48 @@
+name: 성경통독 앱 배포
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 파일 가져오기
+        uses: actions/checkout@v4
+      - name: Node 준비
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: pnpm 준비
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+      - name: 필요한 프로그램 설치
+        run: pnpm install --frozen-lockfile
+      - name: 앱 만들기
+        run: pnpm run build
+      - name: Pages 준비
+        uses: actions/configure-pages@v5
+      - name: 완성된 앱 올리기
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+      - name: GitHub Pages 배포
+        id: deployment
+        uses: actions/deploy-pages@v4

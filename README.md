@@ -10,3 +10,13 @@
 - 구약/신약 탐색
 - 웨체스터제일교회 로고와 비전
 - 아이폰 및 안드로이드 홈 화면 설치
+
+## GitHub Pages 배포
+
+1. 이 폴더 전체를 GitHub 저장소에 올립니다.
+2. 저장소의 `Settings` > `Pages`로 이동합니다.
+3. `Source`에서 `GitHub Actions`를 선택합니다.
+4. `Actions` 메뉴에서 `성경통독 앱 배포`가 완료될 때까지 기다립니다.
+5. `Settings` > `Pages`의 `Visit site`를 눌러 앱을 엽니다.
+
+자세한 안내는 함께 제공된 `GitHub에 올리는 방법.txt`를 확인하세요.

@@ -1,0 +1,14 @@
+{
+  "name": "웨체스터제일교회 온가족 성경통독",
+  "short_name": "온가족 통독",
+  "description": "2026–2027 온가족 성경통독",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "lang": "ko",
+  "icons": [
+    { "src": "./church-logo.jpg", "sizes": "512x164", "type": "image/jpeg", "purpose": "any" }
+  ]
+}

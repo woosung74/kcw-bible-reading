@@ -1,0 +1,82 @@
+웨체스터제일교회 온가족 성경통독 앱 - GitHub 업로드 방법
+============================================================
+
+[중요] ZIP 파일 자체를 GitHub에 올리는 것이 아닙니다.
+ZIP 파일을 먼저 풀고, 그 안의 업로드용 폴더 전체를 GitHub Desktop으로 올립니다.
+
+1. GitHub에서 빈 저장소 만들기
+------------------------------
+1) https://github.com 에 로그인합니다.
+2) 오른쪽 위 + 버튼 > New repository를 누릅니다.
+3) Repository name에 kcw-bible-reading을 입력합니다.
+4) Public을 선택합니다.
+5) README, .gitignore, License는 추가하지 않습니다.
+6) Create repository를 누릅니다.
+
+2. GitHub Desktop으로 올리기 (가장 쉬운 방법)
+--------------------------------------------
+1) https://desktop.github.com 에서 GitHub Desktop을 설치합니다.
+2) GitHub 계정으로 로그인합니다.
+3) File > Add Local Repository를 누릅니다.
+4) 바탕화면의 '웨체스터제일교회-성경통독앱-GitHub업로드용' 폴더를 선택합니다.
+5) 저장소가 아니라는 안내가 나오면 'create a repository'를 누릅니다.
+6) Name은 kcw-bible-reading으로 입력합니다.
+7) Create Repository를 누릅니다.
+8) 왼쪽 아래 Summary에 '성경통독 앱 최초 등록'이라고 입력합니다.
+9) Commit to main을 누릅니다.
+10) 위쪽 Publish repository를 누릅니다.
+11) Keep this code private의 체크를 해제하고 Publish Repository를 누릅니다.
+
+3. GitHub Pages 켜기
+--------------------
+1) GitHub 웹사이트에서 kcw-bible-reading 저장소를 엽니다.
+2) Settings > 왼쪽 Pages를 누릅니다.
+3) Build and deployment의 Source에서 GitHub Actions를 선택합니다.
+4) 위쪽 Actions 메뉴를 누릅니다.
+5) '성경통독 앱 배포' 옆에 초록색 체크가 생길 때까지 기다립니다.
+6) Settings > Pages로 돌아가 Visit site를 누릅니다.
+
+앱 주소는 보통 다음과 같습니다.
+https://내GitHub아이디.github.io/kcw-bible-reading/
+
+4. 정확히 어떤 파일을 올려야 하나요?
+-----------------------------------
+'웨체스터제일교회-성경통독앱-GitHub업로드용' 폴더 전체를 올립니다.
+
+반드시 포함되어야 하는 항목:
+- .github 폴더 (자동 배포 설정 - 숨김 폴더이므로 삭제 금지)
+- public 폴더 (교회 로고, 앱 설치 정보)
+- src 폴더 (앱 화면과 성경 66권 데이터)
+- .gitignore
+- GitHub에 올리는 방법.txt
+- README.md
+- index.html
+- package.json
+- pnpm-lock.yaml
+- vite.config.js
+
+올리지 않아도 되는 항목:
+- node_modules 폴더
+- dist 폴더
+- design 폴더
+- ZIP 파일 자체
+
+제공된 업로드용 폴더에는 올려야 할 파일만 정리되어 있습니다.
+따라서 파일을 하나씩 고르지 말고 폴더 전체를 GitHub Desktop에 등록하세요.
+
+5. 스마트폰에서 사용하기
+-------------------------
+아이폰: Safari로 앱 열기 > 공유 버튼 > 홈 화면에 추가
+안드로이드: Chrome으로 앱 열기 > 점 3개 메뉴 > 앱 설치 또는 홈 화면에 추가
+
+읽은 장을 누르면 완료 표시가 되고, 진행 기록은 각 사람의 스마트폰에 저장됩니다.
+브라우저 데이터를 삭제하거나 스마트폰을 바꾸면 기록이 사라질 수 있습니다.
+
+6. 앱을 수정한 후 다시 올리기
+-----------------------------
+1) 파일을 수정합니다.
+2) GitHub Desktop을 엽니다.
+3) Summary에 변경 내용을 적습니다.
+4) Commit to main을 누릅니다.
+5) Push origin을 누릅니다.
+6) 몇 분 후 GitHub Pages에 새 내용이 자동 반영됩니다.
