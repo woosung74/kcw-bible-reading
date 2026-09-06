@@ -5,6 +5,7 @@ import { allBooks, TOTAL_CHAPTERS } from './bibleData';
 import './styles.css';
 import Preferences from './Preferences.jsx';
 import ReadingPlan from './ReadingPlan.jsx';
+import ChurchPlan from './ChurchPlan.jsx';
 import Journal, { JournalShortcut, CalendarJournalButton } from './Journal.jsx';
 import { useJournal } from './useJournal.js';
 import { NotebookPen } from 'lucide-react';
@@ -2512,23 +2513,23 @@ function App() {
 
   return <div className="app-shell">
     <Header />
-    <Preferences language="ko" keys={BACKUP_KEYS} journalKey={JOURNAL_KEY} journal={journal} allBooks={allBooks} />
     <main>
       {tab === 'home' && <>
-        <section className="welcome"><Sunrise /><div><p>하나님께서</p><h1>오늘도 함께하시길 축복합니다!</h1><span>온가족 성경통독 2026–2027</span></div></section>
-        <DailyVerse />
-        <JournalShortcut language="ko" onOpen={openJournal} />
-        <ReadingPlan language="ko" />
         <section className="dashboard">
           <ProgressRing completed={completed.size} />
           <div className="today-area"><div className="today-count"><small>오늘 통독</small><strong>{todayCount}<em>장</em></strong></div><button onClick={() => openBook(nextUnread)}><BookOpen /> 계속 읽기</button><button className="calendar-shortcut" onClick={() => { setTab('calendar'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}><CalendarDays /> 날짜별 기록 보기</button><p>{nextUnread.name}에서 말씀의 한 걸음을 이어가세요.</p></div>
         </section>
+        <ChurchPlan language="ko" onOpen={openBook} />
+        <section className="welcome"><Sunrise /><div><p>하나님께서</p><h1>오늘도 함께하시길 축복합니다!</h1><span>온가족 성경통독 2026–2027</span></div></section>
+        <DailyVerse />
+        <JournalShortcut language="ko" onOpen={openJournal} />
         <ReadingJourney completedRounds={visibleCompletedRounds} currentRound={currentRound} isComplete={isRoundComplete} onStartNext={startNextRound} />
         <div className="testament-links">
           <button onClick={() => openBookList('old')}><span className="round-icon blue"><BookOpen /></span><div><strong>구약 성경</strong><small>창세기 ~ 말라기</small></div><ChevronRight /></button>
           <button onClick={() => openBookList('new')}><span className="round-icon gold"><BookOpen /></span><div><strong>신약 성경</strong><small>마태복음 ~ 요한계시록</small></div><ChevronRight /></button>
         </div>
         <ChapterGrid book={selectedBook} completed={completed} toggleChapter={toggleChapter} toggleBook={toggleBook} />
+        <ReadingPlan language="ko" />
         <Vision />
       </>}
       {tab === 'bible' && <section className="bible-view">
@@ -2545,6 +2546,7 @@ function App() {
       {tab === 'journal' && <Journal language="ko" journal={journal} date={journalDate} onDateChange={setJournalDate} />}
       {tab === 'vision' && <div className="vision-page"><div className="page-title"><h1>우리의 비전</h1><p>말씀을 읽고, 삶으로 복음을 나눕니다.</p></div><Vision /><section className="prayer"><h2>우리의 소망과 기도</h2><ol><li>하나님을 더 사랑하고 더 알기 원합니다.</li><li>뉴욕과 웨체스터 지역을 사랑하길 원합니다.</li><li>웨체스터제일교회에 부어주실 새로운 큰 부흥을 고대합니다.</li></ol></section><button className="reset" onClick={() => { if (confirm('완독 횟수를 포함한 모든 통독 기록을 초기화할까요?')) { setCompleted(new Set()); setReadingDates({}); setReadingHistory([]); setCompletedRounds(0); setRoundAwarded(false); } }}><RotateCcw size={17} /> 통독 기록 초기화</button></div>}
     </main>
+    <Preferences language="ko" keys={BACKUP_KEYS} journalKey={JOURNAL_KEY} journal={journal} allBooks={allBooks} />
     <nav className="bottom-nav" aria-label="주요 메뉴">
       {[['home','홈',Home],['bible','성경',BookOpen],['calendar','달력',CalendarDays],['journal','메모·감사',NotebookPen],['vision','비전',Heart]].map(([key,label,Icon]) => <button key={key} className={tab === key ? 'active' : ''} onClick={() => { if (key === 'bible') setShowBookDetail(false); setTab(key); window.scrollTo({ top: 0, behavior: 'smooth' }); }}><Icon /><span>{label}</span></button>)}
     </nav>
