@@ -35,6 +35,8 @@ jobs:
           cache: pnpm
       - name: 필요한 프로그램 설치
         run: pnpm install --frozen-lockfile
+      - name: 메모 및 백업 검증
+        run: pnpm test
       - name: 앱 만들기
         run: pnpm run build
       - name: Pages 준비

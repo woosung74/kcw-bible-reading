@@ -3,12 +3,18 @@ import { createRoot } from 'react-dom/client';
 import { ArrowLeft, BookOpen, CalendarDays, Check, CheckCircle2, ChevronLeft, ChevronRight, Circle, Heart, Home, RotateCcw, Sparkles, Sunrise, Trophy } from 'lucide-react';
 import { allBooks, TOTAL_CHAPTERS } from './bibleData';
 import './styles.css';
+import Preferences from './Preferences.jsx';
+import Journal, { JournalShortcut, CalendarJournalButton } from './Journal.jsx';
+import { useJournal } from './useJournal.js';
+import { NotebookPen } from 'lucide-react';
 
 const STORAGE_KEY = 'kcw-bible-progress-v1';
 const DATES_KEY = 'kcw-bible-reading-dates-v1';
 const ROUNDS_KEY = 'kcw-bible-completed-rounds-v1';
 const ROUND_AWARDED_KEY = 'kcw-bible-round-awarded-v1';
 const HISTORY_KEY = 'kcw-bible-reading-history-v1';
+const JOURNAL_KEY = 'kcw-bible-journal-ko-v1';
+const BACKUP_KEYS = [STORAGE_KEY, DATES_KEY, ROUNDS_KEY, ROUND_AWARDED_KEY, HISTORY_KEY];
 const BASE_URL = import.meta.env.BASE_URL;
 
 const DAILY_VERSES = [
@@ -2269,16 +2275,6 @@ function ReadingJourney({ completedRounds, currentRound, isComplete, onStartNext
 }
 
 
-function Preferences() {
- const keys=[STORAGE_KEY,DATES_KEY,ROUNDS_KEY,ROUND_AWARDED_KEY,HISTORY_KEY];
- const [size,setSize]=useState(()=>localStorage.getItem(STORAGE_KEY+'-font')||'normal');
- const [message,setMessage]=useState('');
- useEffect(()=>{document.documentElement.dataset.font=size;localStorage.setItem(STORAGE_KEY+'-font',size);},[size]);
- const backup=()=>{const data={app:'kcw-bible',version:1,language:'ko',savedAt:new Date().toISOString(),values:keys.map(key=>localStorage.getItem(key))};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='kcw-bible-ko-'+localDateKey()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
- const restore=async(event)=>{try{const file=event.target.files[0];if(!file)return;if(file.size>10000000)throw Error();const data=JSON.parse(await file.text());if(data.app!=='kcw-bible'||data.version!==1||data.language!=='ko'||!Array.isArray(data.values)||data.values.length!==5)throw Error();const values=data.values.map(v=>v===null?null:JSON.parse(v));const valid=new Set(allBooks.flatMap(b=>Array.from({length:b.chapters},(_,i)=>b.name+'-'+(i+1))));const dates=v=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.entries(v).every(([k,d])=>valid.has(k)&&typeof d==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d));if(!Array.isArray(values[0])||!values[0].every(k=>valid.has(k))||!dates(values[1])||!Number.isSafeInteger(values[2])||values[2]<0||values[2]>1000||typeof values[3]!=='boolean'||!Array.isArray(values[4])||!values[4].every(e=>e&&valid.has(e.chapter)&&Number.isSafeInteger(e.round)&&e.round>0&&typeof e.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(e.date)))throw Error();if(!confirm('현재 기록을 백업 파일의 기록으로 바꿀까요? 먼저 현재 기록을 백업해 두세요.'))return;const before=keys.map(k=>localStorage.getItem(k));try{keys.forEach((k,i)=>localStorage.setItem(k,data.values[i]));}catch(error){keys.forEach((k,i)=>before[i]===null?localStorage.removeItem(k):localStorage.setItem(k,before[i]));throw error;}location.reload();}catch{setMessage('복원할 수 없습니다. 같은 언어 버전의 올바른 백업 파일인지 확인하세요.');}event.target.value='';};
- return <details className="preferences"><summary>글자 크기 · 기록 백업</summary><label>글자 크기<select value={size} onChange={e=>setSize(e.target.value)}><option value="normal">기본</option><option value="large">크게</option><option value="xlarge">아주 크게</option></select></label><button onClick={backup}>기록 백업 저장</button><label>백업 복원<input type="file" accept=".json,application/json" onChange={restore}/></label><p>진도, 완독 횟수, 날짜 기록을 파일로 보관합니다. 같은 언어 버전에서 복원할 수 있습니다.</p><p role="status">{message}</p></details>;
-}
-
 function Header() {
   return <header className="site-header">
     <img src={`${BASE_URL}church-logo.jpg`} alt="웨체스터제일교회" />
@@ -2339,7 +2335,7 @@ function Vision() {
   </section>;
 }
 
-function ReadingCalendar({ readingEntries, onRecord }) {
+function ReadingCalendar({ readingEntries, onRecord, journalEntries, onJournal }) {
   const todayKey = localDateKey();
   const today = new Date();
   const [monthDate, setMonthDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
@@ -2395,9 +2391,10 @@ function ReadingCalendar({ readingEntries, onRecord }) {
         if (!day) return <span className="calendar-empty" key={`empty-${index}`} />;
         const dateKey = localDateKey(new Date(year, month, day));
         const count = readingsByDate[dateKey]?.length || 0;
+        const hasJournal = Boolean(journalEntries[dateKey]);
         const className = ['calendar-day', dateKey === todayKey ? 'today' : '', dateKey === selectedDate ? 'selected' : '', count ? 'has-reading' : ''].filter(Boolean).join(' ');
-        return <button type="button" key={dateKey} className={className} onClick={() => setSelectedDate(dateKey)} aria-label={`${formatDate(dateKey)}, ${count}장 통독`}>
-          <span>{day}</span>{count > 0 && <b>{count}장</b>}
+        return <button type="button" key={dateKey} className={className} onClick={() => setSelectedDate(dateKey)} aria-label={`${formatDate(dateKey)}, ${count}장 통독${hasJournal ? ", 메모·감사 있음" : ""}`}>
+          <span>{day}</span>{hasJournal && <span className="calendar-journal-marker" aria-hidden="true">✎</span>}{count > 0 && <b>{count}장</b>}
         </button>;
       })}
     </div>
@@ -2408,12 +2405,16 @@ function ReadingCalendar({ readingEntries, onRecord }) {
         return <li key={`${round}-${chapter}`}><CheckCircle2 /> <b>{round}독</b> · {chapter.slice(0, splitAt)} {chapter.slice(splitAt + 1)}장</li>;
       })}</ul> : <p>이 날짜에 기록된 통독이 없습니다.</p>}
     </div>
+    <CalendarJournalButton language="ko" date={selectedDate} onOpen={onJournal} />
     <form className="record-editor" onSubmit={(event) => { event.preventDefault(); onRecord(allBooks[editBook].name + '-' + editChapter, selectedDate); setRecordMessage('선택한 날짜에 저장했습니다.'); }}><h3>선택한 날짜에 읽은 장 기록</h3><p>현재 회독의 기록을 추가하거나 날짜를 옮깁니다.</p><label>성경<select value={editBook} onChange={e=>{setEditBook(Number(e.target.value));setEditChapter(1);}}>{allBooks.map((b,i)=><option key={b.name} value={i}>{b.name}</option>)}</select></label><label>장<select value={editChapter} onChange={e=>setEditChapter(Number(e.target.value))}>{Array.from({length:allBooks[editBook].chapters},(_,i)=><option key={i+1} value={i+1}>{i+1}</option>)}</select></label><button disabled={selectedDate>todayKey}>이 날짜에 저장</button><p role="status">{recordMessage}</p></form>
     <p className="calendar-note">완료한 회독의 날짜별 기록도 계속 보관됩니다. 기존 완료 기록은 그대로 유지되며, 날짜가 없는 과거 기록은 달력에 표시되지 않습니다.</p>
   </section>;
 }
 
 function App() {
+  const journal = useJournal(JOURNAL_KEY);
+  const [journalDate, setJournalDate] = useState(localDateKey);
+  const openJournal = date => { setJournalDate(date); setTab('journal'); window.scrollTo({ top: 0, behavior: 'smooth' }); };
   const [completed, setCompleted] = useState(readSaved);
   const [readingDates, setReadingDates] = useState(readSavedDates);
   const [completedRounds, setCompletedRounds] = useState(() => readStoredNumber(ROUNDS_KEY));
@@ -2510,11 +2511,12 @@ function App() {
 
   return <div className="app-shell">
     <Header />
-    <Preferences />
+    <Preferences language="ko" keys={BACKUP_KEYS} journalKey={JOURNAL_KEY} journal={journal} allBooks={allBooks} />
     <main>
       {tab === 'home' && <>
         <section className="welcome"><Sunrise /><div><p>하나님께서</p><h1>오늘도 함께하시길 축복합니다!</h1><span>온가족 성경통독 2026–2027</span></div></section>
         <DailyVerse />
+        <JournalShortcut language="ko" onOpen={openJournal} />
         <section className="dashboard">
           <ProgressRing completed={completed.size} />
           <div className="today-area"><div className="today-count"><small>오늘 통독</small><strong>{todayCount}<em>장</em></strong></div><button onClick={() => openBook(nextUnread)}><BookOpen /> 계속 읽기</button><button className="calendar-shortcut" onClick={() => { setTab('calendar'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}><CalendarDays /> 날짜별 기록 보기</button><p>{nextUnread.name}에서 말씀의 한 걸음을 이어가세요.</p></div>
@@ -2537,11 +2539,12 @@ function App() {
           <div className="book-list">{visibleBooks.map((book) => <BookRow key={book.name} book={book} done={doneByBook.get(book.name) || 0} onSelect={() => openBook(book)} />)}</div>
         </>}
       </section>}
-      {tab === 'calendar' && <div className="calendar-page"><div className="page-title"><h1>나의 통독 기록</h1><p>달력에서 오늘과 날짜별 통독 기록을 확인하세요.</p></div><ReadingCalendar readingEntries={readingEntries} onRecord={(chapter,date)=>{setCompleted(current=>new Set([...current,chapter]));setReadingDates(current=>({...current,[chapter]:date}));}} /></div>}
+      {tab === 'calendar' && <div className="calendar-page"><div className="page-title"><h1>나의 통독 기록</h1><p>달력에서 오늘과 날짜별 통독 기록을 확인하세요.</p></div><ReadingCalendar journalEntries={journal.entries} onJournal={openJournal} readingEntries={readingEntries} onRecord={(chapter,date)=>{setCompleted(current=>new Set([...current,chapter]));setReadingDates(current=>({...current,[chapter]:date}));}} /></div>}
+      {tab === 'journal' && <Journal language="ko" journal={journal} date={journalDate} onDateChange={setJournalDate} />}
       {tab === 'vision' && <div className="vision-page"><div className="page-title"><h1>우리의 비전</h1><p>말씀을 읽고, 삶으로 복음을 나눕니다.</p></div><Vision /><section className="prayer"><h2>우리의 소망과 기도</h2><ol><li>하나님을 더 사랑하고 더 알기 원합니다.</li><li>뉴욕과 웨체스터 지역을 사랑하길 원합니다.</li><li>웨체스터제일교회에 부어주실 새로운 큰 부흥을 고대합니다.</li></ol></section><button className="reset" onClick={() => { if (confirm('완독 횟수를 포함한 모든 통독 기록을 초기화할까요?')) { setCompleted(new Set()); setReadingDates({}); setReadingHistory([]); setCompletedRounds(0); setRoundAwarded(false); } }}><RotateCcw size={17} /> 통독 기록 초기화</button></div>}
     </main>
     <nav className="bottom-nav" aria-label="주요 메뉴">
-      {[['home','홈',Home],['bible','성경',BookOpen],['calendar','달력',CalendarDays],['vision','비전',Heart]].map(([key,label,Icon]) => <button key={key} className={tab === key ? 'active' : ''} onClick={() => { if (key === 'bible') setShowBookDetail(false); setTab(key); window.scrollTo({ top: 0, behavior: 'smooth' }); }}><Icon /><span>{label}</span></button>)}
+      {[['home','홈',Home],['bible','성경',BookOpen],['calendar','달력',CalendarDays],['journal','메모·감사',NotebookPen],['vision','비전',Heart]].map(([key,label,Icon]) => <button key={key} className={tab === key ? 'active' : ''} onClick={() => { if (key === 'bible') setShowBookDetail(false); setTab(key); window.scrollTo({ top: 0, behavior: 'smooth' }); }}><Icon /><span>{label}</span></button>)}
     </nav>
   </div>;
 }
