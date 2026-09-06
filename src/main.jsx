@@ -4,6 +4,7 @@ import { ArrowLeft, BookOpen, CalendarDays, Check, CheckCircle2, ChevronLeft, Ch
 import { allBooks, TOTAL_CHAPTERS } from './bibleData';
 import './styles.css';
 import Preferences from './Preferences.jsx';
+import ReadingPlan from './ReadingPlan.jsx';
 import Journal, { JournalShortcut, CalendarJournalButton } from './Journal.jsx';
 import { useJournal } from './useJournal.js';
 import { NotebookPen } from 'lucide-react';
@@ -2517,6 +2518,7 @@ function App() {
         <section className="welcome"><Sunrise /><div><p>하나님께서</p><h1>오늘도 함께하시길 축복합니다!</h1><span>온가족 성경통독 2026–2027</span></div></section>
         <DailyVerse />
         <JournalShortcut language="ko" onOpen={openJournal} />
+        <ReadingPlan language="ko" />
         <section className="dashboard">
           <ProgressRing completed={completed.size} />
           <div className="today-area"><div className="today-count"><small>오늘 통독</small><strong>{todayCount}<em>장</em></strong></div><button onClick={() => openBook(nextUnread)}><BookOpen /> 계속 읽기</button><button className="calendar-shortcut" onClick={() => { setTab('calendar'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}><CalendarDays /> 날짜별 기록 보기</button><p>{nextUnread.name}에서 말씀의 한 걸음을 이어가세요.</p></div>

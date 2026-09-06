@@ -1,0 +1,10 @@
+.reading-plan-card{margin:18px 0;padding:22px;border:1px solid #d9e5e3;border-radius:20px;background:#f5faf8;color:#173b4a}
+.reading-plan-eyebrow{font-size:12px;font-weight:700;letter-spacing:.06em;color:#39746c}
+.reading-plan-card h2{font-size:21px;margin:8px 0}
+.reading-plan-card p{font-size:14px;line-height:1.6;margin:0 0 16px;color:#536a70}
+.reading-plan-actions{display:flex;flex-wrap:wrap;gap:10px}
+.reading-plan-actions a{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 15px;border:1px solid #246d64;border-radius:12px;color:#246d64;background:white;text-decoration:none;font-weight:700;font-size:14px}
+.reading-plan-actions a:first-child{background:#246d64;color:white}
+.reading-plan-actions a:focus-visible{outline:3px solid #bd8b39;outline-offset:3px}
+.reading-plan-card small{display:block;margin-top:12px;font-size:12px;line-height:1.5;color:#60747a}
+.reading-plan-sr{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
