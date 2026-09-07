@@ -1,0 +1,14 @@
+.church-tracker{padding:24px;margin:24px 0;background:#fff;border:2px solid #3e7864;border-radius:20px;color:#173b4a}
+.church-tracker h2{font-size:24px}.church-tracker h3{font-size:21px}.church-tracker p{font-size:15px;line-height:1.7}
+.church-tracker-score{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:20px}.church-tracker-score strong{font-size:44px;color:#276c51}.church-tracker-score span{font-size:17px;font-weight:700}
+.church-tracker progress{width:100%;height:20px;accent-color:#286855}
+.church-tracker-editor{margin-top:24px;border-top:1px solid #cadbd2;padding-top:12px;scroll-margin:100px}
+.church-tracker label{display:flex;flex-direction:column;gap:8px;font-size:17px;font-weight:700;margin:16px 0}
+.church-tracker input,.church-tracker select{font:inherit;min-width:0;max-width:100%;box-sizing:border-box;padding:14px;border:1px solid #859f93;border-radius:10px;background:white;color:#173b4a}
+.church-tracker button,.church-tracker summary{font:inherit;font-size:18px;font-weight:700;min-height:52px;padding:14px 18px;border:1px solid #779b89;border-radius:12px;background:#f3f8f4;color:#173b4a;cursor:pointer;line-height:1.5}
+.church-tracker .church-tracker-save{background:#286855;color:white}.church-tracker button:disabled{opacity:.5;cursor:not-allowed}
+.church-tracker-actions{display:flex;flex-wrap:wrap;gap:12px}.church-tracker-range{display:grid;gap:8px;margin:20px 0;font-size:25px;line-height:1.6}
+.church-tracker-state{font-weight:700}.church-tracker-history{margin-top:24px}.church-tracker-history ul{padding:0;list-style:none}.church-tracker-history li{margin:12px 0}
+.church-tracker-history button{width:100%;text-align:left;display:grid;gap:7px}.church-tracker-history small{font-weight:400;font-size:14px}
+.church-tracker :focus-visible{outline:3px solid #b78630;outline-offset:3px}
+@media(max-width:480px){.church-tracker{padding:18px 14px}.church-tracker-actions button{width:100%}}

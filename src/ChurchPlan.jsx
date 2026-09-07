@@ -3,6 +3,7 @@ import { allBooks } from './bibleData';
 import { CHURCH_SCHEDULE } from './churchSchedule';
 import { dateKey, localDate, weekFor, nextReading, chapterCount, PLAN_START, PLAN_END } from './churchPlan';
 import './churchPlan.css';
+import ChurchTracker from './ChurchTracker.jsx';
 
 export default function ChurchPlan({ language, onOpen }) {
   const ko=language==='ko';
@@ -32,6 +33,7 @@ export default function ChurchPlan({ language, onOpen }) {
         <div className="church-open">{refs.map(ref=><button key={ref[0]} onClick={()=>onOpen(allBooks[ref[0]])}>{allBooks[ref[0]].name} {ko?'기록 열기':'tracker'} →</button>)}</div></>
         : <><p className="church-empty">{note}</p>{next && <div className="church-next"><b>{ko?'다음 읽기':'Next reading'} · {format(next.date)}</b><p>{next.refs.map(label).join(' / ')}</p></div>}</>}
     </div>
+    <ChurchTracker language={language} today={today} />
     <div className="church-week">
       <h2>{ko?'이번 주 읽을 말씀':'This Week’s Reading'}</h2>
       <p>{format(week[0].date)} - {format(week[6].date)} · {ko?'일요일–토요일':'Sunday–Saturday'}</p>

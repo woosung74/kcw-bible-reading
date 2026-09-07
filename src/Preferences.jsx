@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createBackup, restoreBackup, validateBackup } from './backupData.js';
 import { localDay } from './journalData.js';
+import { readChurchRecords, churchRecordKey } from './churchRecords.js';
 
 const COPY = {
   ko: {
@@ -41,7 +42,7 @@ export default function Preferences({ language, keys, journalKey, journal, allBo
     try {
       if (journal.status === 'load-error') throw new Error('Unreadable journal');
       // Include in-memory notes too, so a storage-quota error does not prevent a file backup.
-      const data = createBackup(localStorage, keys, language, journal.entries);
+      const data = createBackup(localStorage, keys, language, journal.entries, readChurchRecords(localStorage, language));
       validateBackup(data, language, allBooks);
       const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
       const link = document.createElement('a');
@@ -59,8 +60,11 @@ export default function Preferences({ language, keys, journalKey, journal, allBo
       if (!file) return;
       if (file.size > 10000000) throw new Error('Backup too large');
       const data = validateBackup(JSON.parse(await file.text()), language, allBooks);
-      if (!confirm(data.journal === undefined ? t.legacy : t.confirm)) return;
-      restoreBackup(localStorage, keys, journalKey, data);
+      const extra = data.churchRecords === undefined
+        ? (language === 'ko' ? '\n이 백업에 없는 교회 읽기표 기록은 현재 그대로 유지합니다.' : '\nCurrent church plan records are preserved because this backup does not include them.')
+        : (language === 'ko' ? '\n교회 읽기표 기록도 백업 내용으로 바뀝니다.' : '\nChurch plan records will also be replaced by this backup.');
+      if (!confirm((data.journal === undefined ? t.legacy : t.confirm) + extra)) return;
+      restoreBackup(localStorage, keys, journalKey, data, churchRecordKey(language));
       setMessage(t.restored);
       location.reload();
     } catch { setMessage(t.error); }
@@ -70,6 +74,8 @@ export default function Preferences({ language, keys, journalKey, journal, allBo
     <label>{t.size}<select value={size} onChange={e => setSize(e.target.value)}>{['normal', 'large', 'xlarge'].map((value, i) => <option key={value} value={value}>{t.sizes[i]}</option>)}</select></label>
     <button type="button" onClick={backup}>{t.backup}</button>
     <label>{t.restore}<input type="file" accept=".json,application/json" onChange={restore} /></label>
-    <p>{t.help}</p><p role="status">{message}</p>
+    <p>{t.help}</p>
+    <p>{language === 'ko' ? '교회 읽기표 진행 기록과 실제 읽은 날짜도 함께 백업합니다. 이전 백업을 복원해도 그 백업에 없는 교회 기록은 그대로 유지합니다.' : 'Church plan checkmarks and actual reading dates are included. Restoring an older backup preserves church records not included in that file.'}</p>
+    <p role="status">{message}</p>
   </details>;
 }
