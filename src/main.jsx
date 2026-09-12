@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArrowLeft, BookOpen, CalendarDays, Check, CheckCircle2, ChevronLeft, ChevronRight, Circle, Heart, Home, RotateCcw, Sparkles, Sunrise, Trophy } from 'lucide-react';
+import { ArrowLeft, BookOpen, CalendarDays, Check, CheckCircle2, ChevronLeft, ChevronRight, Circle, Files, Heart, Home, RotateCcw, Sparkles, Sunrise, Trophy } from 'lucide-react';
 import { allBooks, TOTAL_CHAPTERS } from './bibleData';
 import './styles.css';
 import Preferences from './Preferences.jsx';
 import ReadingPlan from './ReadingPlan.jsx';
+import SummaryLibrary from './SummaryLibrary.jsx';
 import ChurchPlan from './ChurchPlan.jsx';
 import Journal, { JournalShortcut, CalendarJournalButton } from './Journal.jsx';
 import { useJournal } from './useJournal.js';
@@ -2544,11 +2545,12 @@ function App() {
       </section>}
       {tab === 'calendar' && <div className="calendar-page"><div className="page-title"><h1>나의 통독 기록</h1><p>달력에서 오늘과 날짜별 통독 기록을 확인하세요.</p></div><ReadingCalendar journalEntries={journal.entries} onJournal={openJournal} readingEntries={readingEntries} onRecord={(chapter,date)=>{setCompleted(current=>new Set([...current,chapter]));setReadingDates(current=>({...current,[chapter]:date}));}} /></div>}
       {tab === 'journal' && <Journal language="ko" journal={journal} date={journalDate} onDateChange={setJournalDate} />}
+      {tab === 'summaries' && <SummaryLibrary />}
       {tab === 'vision' && <div className="vision-page"><div className="page-title"><h1>우리의 비전</h1><p>말씀을 읽고, 삶으로 복음을 나눕니다.</p></div><Vision /><section className="prayer"><h2>우리의 소망과 기도</h2><ol><li>하나님을 더 사랑하고 더 알기 원합니다.</li><li>뉴욕과 웨체스터 지역을 사랑하길 원합니다.</li><li>웨체스터제일교회에 부어주실 새로운 큰 부흥을 고대합니다.</li></ol></section><button className="reset" onClick={() => { if (confirm('완독 횟수를 포함한 모든 통독 기록을 초기화할까요?')) { setCompleted(new Set()); setReadingDates({}); setReadingHistory([]); setCompletedRounds(0); setRoundAwarded(false); } }}><RotateCcw size={17} /> 통독 기록 초기화</button></div>}
     </main>
     <Preferences language="ko" keys={BACKUP_KEYS} journalKey={JOURNAL_KEY} journal={journal} allBooks={allBooks} />
     <nav className="bottom-nav" aria-label="주요 메뉴">
-      {[['home','홈',Home],['bible','성경',BookOpen],['calendar','달력',CalendarDays],['journal','메모·감사',NotebookPen],['vision','비전',Heart]].map(([key,label,Icon]) => <button key={key} className={tab === key ? 'active' : ''} onClick={() => { if (key === 'bible') setShowBookDetail(false); setTab(key); window.scrollTo({ top: 0, behavior: 'smooth' }); }}><Icon /><span>{label}</span></button>)}
+      {[['home','홈',Home],['bible','성경',BookOpen],['calendar','달력',CalendarDays],['journal','메모·감사',NotebookPen],['summaries','권별 요약',Files],['vision','비전',Heart]].map(([key,label,Icon]) => <button key={key} className={tab === key ? 'active' : ''} onClick={() => { if (key === 'bible') setShowBookDetail(false); setTab(key); window.scrollTo({ top: 0, behavior: 'smooth' }); }}><Icon /><span>{label}</span></button>)}
     </nav>
   </div>;
 }

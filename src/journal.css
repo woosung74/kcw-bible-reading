@@ -50,7 +50,7 @@
 .journal-calendar-link svg { width:20px; flex:none; }
 .calendar-journal-marker { font-size:13px; line-height:1; color:#946423; }
 .bottom-nav { gap:0; }
-.bottom-nav button { width:20%; max-width:170px; min-width:0; }
+.bottom-nav button { width:16.666%; max-width:170px; min-width:0; }
 @media(max-width:600px) {
   .journal-editor { padding:20px 14px; border-radius:17px; }
   .journal-gratitude { padding:14px 10px; }
@@ -58,6 +58,6 @@
   .journal-entry { padding:18px 14px; }
   .journal-shortcut { padding:18px 16px; }
   .journal-shortcut strong { font-size:16px; }
-  .bottom-nav button { width:20%; }
+  .bottom-nav button { width:16.666%; }
   .bottom-nav span { font-size:11px; }
 }
