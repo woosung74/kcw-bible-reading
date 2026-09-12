@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { BookOpen, Download, FileText, Search } from 'lucide-react';
 import { SUMMARY_BOOKS } from './summaryLibrary.js';
+import PdfDocumentViewer from './PdfDocumentViewer.jsx';
 import './summaryLibrary.css';
 import './summaryViewer.css';
 
@@ -78,7 +79,7 @@ export default function SummaryLibrary() {
           <button type="button" onClick={closeDocument} autoFocus>닫기 · 앱으로 돌아가기</button>
         </div>
       </header>
-      <iframe src={`${import.meta.env.BASE_URL}${openItem.file}#view=FitH`} title={`${openItem.book} 성경 요약 PDF`} />
+      <PdfDocumentViewer url={`${import.meta.env.BASE_URL}${openItem.file}`} title={`${openItem.book} 성경 요약 PDF`} />
     </div>}
   </section>;
 }
