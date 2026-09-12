@@ -1,0 +1,37 @@
+.summary-actions button {
+  min-width: 128px;
+  min-height: 46px;
+  border: 0;
+  border-radius: 11px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #33745f;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.summary-actions button:focus-visible { outline: 3px solid #d3a24d; outline-offset: 3px; }
+.summary-viewer-open { overflow: hidden; }
+.summary-viewer { position: fixed; inset: 0; z-index: 9999; background: #eef3ef; display: flex; flex-direction: column; }
+.summary-viewer-header { flex: none; min-height: 76px; padding: 12px max(18px, env(safe-area-inset-right)) 12px max(18px, env(safe-area-inset-left)); background: #fff; border-bottom: 1px solid #d8e3dc; box-shadow: 0 4px 16px rgba(25,60,48,.12); display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.summary-viewer-header > div:first-child { display: grid; gap: 2px; color: #66776f; }
+.summary-viewer-header span { font-size: .76rem; font-weight: 800; }
+.summary-viewer-header strong { color: #173c31; font-size: 1.08rem; }
+.summary-viewer-actions { display: flex; align-items: center; gap: 10px; }
+.summary-viewer-actions a, .summary-viewer-actions button { min-height: 48px; border-radius: 13px; padding: 10px 16px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; font: inherit; font-weight: 850; text-decoration: none; cursor: pointer; }
+.summary-viewer-actions a { border: 1px solid #bed0c5; background: #f7faf8; color: #275b4a; }
+.summary-viewer-actions button { border: 0; background: #2f705b; color: #fff; }
+.summary-viewer-actions svg { width: 18px; }
+.summary-viewer-actions a:focus-visible, .summary-viewer-actions button:focus-visible { outline: 3px solid #d3a24d; outline-offset: 2px; }
+.summary-viewer iframe { width: 100%; height: 100%; border: 0; background: #dfe5e1; }
+@media (max-width: 700px) {
+  .summary-actions button { min-width: 0; }
+  .summary-viewer-header { align-items: stretch; flex-direction: column; gap: 9px; padding-top: max(10px, env(safe-area-inset-top)); }
+  .summary-viewer-header > div:first-child { display: none; }
+  .summary-viewer-actions { display: grid; grid-template-columns: minmax(0,.72fr) minmax(0,1.28fr); }
+  .summary-viewer-actions a, .summary-viewer-actions button { min-width: 0; padding: 10px 8px; font-size: .9rem; }
+}

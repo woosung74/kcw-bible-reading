@@ -1,6 +1,6 @@
 const base = new URL(self.registration.scope).pathname;
 const PREFIX = 'kcw-bible-cache:' + base + ':';
-const CACHE = PREFIX + 'v10-summary-library';
+const CACHE = PREFIX + 'v11-summary-viewer';
 const CORE = [base, base + 'index.html', base + 'manifest.webmanifest', base + 'church-logo.jpg'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith(PREFIX) && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())));
