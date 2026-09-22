@@ -70,7 +70,7 @@ export default function SummaryLibrary() {
         </div>
       </article>;
     })}</div> : <p className="summary-empty">검색 결과가 없습니다.</p>}
-    <aside className="summary-note"><b>앞으로 추가될 자료</b><p>출애굽기부터 요한계시록까지 완성되는 순서대로 이곳에서 확인할 수 있습니다.</p></aside>
+    <aside className="summary-note"><b>앞으로 추가될 자료</b><p>레위기부터 요한계시록까지 완성되는 순서대로 이곳에서 확인할 수 있습니다.</p></aside>
     {openItem && <div className="summary-viewer" role="dialog" aria-modal="true" aria-labelledby="summary-viewer-title">
       <header className="summary-viewer-header">
         <div><span>성경 권별 요약</span><strong id="summary-viewer-title">{openItem.book} · {openItem.english}</strong></div>
