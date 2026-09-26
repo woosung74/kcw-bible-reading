@@ -19,4 +19,14 @@ export const SUMMARY_BOOKS = [
     description: '애굽에서의 구원과 시내산 언약, 성막을 통해 함께하시는 하나님의 이야기를 살펴봅니다.',
     file: 'kcw-bible-summary-02-exodus.pdf',
   },
+  {
+    order: 3,
+    testament: '구약',
+    book: '레위기',
+    english: 'Leviticus',
+    chapters: '1-27장',
+    pages: 8,
+    description: '제사와 속죄, 거룩한 삶을 통해 하나님께 가까이 나아가는 길을 살펴봅니다.',
+    file: 'kcw-bible-summary-03-leviticus.pdf',
+  },
 ];
