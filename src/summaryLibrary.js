@@ -49,4 +49,14 @@ export const SUMMARY_BOOKS = [
     description: '모세의 마지막 말씀과 언약의 갱신, 하나님을 사랑하며 순종하는 삶을 살펴봅니다.',
     file: 'kcw-bible-summary-05-deuteronomy.pdf',
   },
+  {
+    order: 6,
+    testament: '구약',
+    book: '여호수아',
+    english: 'Joshua',
+    chapters: '1-24장',
+    pages: 10,
+    description: '약속의 땅으로 들어가는 여정과 가나안 정복, 땅의 분배와 언약의 갱신을 살펴봅니다.',
+    file: 'kcw-bible-summary-06-joshua.pdf',
+  },
 ];
