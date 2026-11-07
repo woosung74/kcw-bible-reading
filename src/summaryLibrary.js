@@ -79,4 +79,14 @@ export const SUMMARY_BOOKS = [
     description: '룻과 나오미, 보아스의 이야기를 통해 신실한 사랑과 하나님의 구원 섭리를 살펴봅니다.',
     file: 'kcw-bible-summary-08-ruth.pdf',
   },
+  {
+    order: 9,
+    testament: '구약',
+    book: '사무엘상',
+    english: '1 Samuel',
+    chapters: '1-31장',
+    pages: 10,
+    description: '사무엘의 사역과 사울의 왕정, 다윗의 부르심과 연단을 통해 하나님의 다스리심을 살펴봅니다.',
+    file: 'kcw-bible-summary-09-1-samuel.pdf',
+  },
 ];
