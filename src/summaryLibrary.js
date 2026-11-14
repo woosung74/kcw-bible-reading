@@ -89,4 +89,14 @@ export const SUMMARY_BOOKS = [
     description: '사무엘의 사역과 사울의 왕정, 다윗의 부르심과 연단을 통해 하나님의 다스리심을 살펴봅니다.',
     file: 'kcw-bible-summary-09-1-samuel.pdf',
   },
+  {
+    order: 10,
+    testament: '구약',
+    book: '사무엘하',
+    english: '2 Samuel',
+    chapters: '1-24장',
+    pages: 8,
+    description: '다윗의 왕위 등극과 하나님이 맺으신 언약, 다윗의 실패와 회복을 살펴봅니다.',
+    file: 'kcw-bible-summary-10-2-samuel.pdf',
+  },
 ];
