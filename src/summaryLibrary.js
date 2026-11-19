@@ -99,4 +99,14 @@ export const SUMMARY_BOOKS = [
     description: '다윗의 왕위 등극과 하나님이 맺으신 언약, 다윗의 실패와 회복을 살펴봅니다.',
     file: 'kcw-bible-summary-10-2-samuel.pdf',
   },
+  {
+    order: 11,
+    testament: '구약',
+    book: '열왕기상',
+    english: '1 Kings',
+    chapters: '1-22장',
+    pages: 10,
+    description: '솔로몬의 통치와 성전 건축, 왕국의 분열과 엘리야의 사역을 살펴봅니다.',
+    file: 'kcw-bible-summary-11-1-kings.pdf',
+  },
 ];
