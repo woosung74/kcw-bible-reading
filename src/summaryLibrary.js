@@ -109,4 +109,14 @@ export const SUMMARY_BOOKS = [
     description: '솔로몬의 통치와 성전 건축, 왕국의 분열과 엘리야의 사역을 살펴봅니다.',
     file: 'kcw-bible-summary-11-1-kings.pdf',
   },
+  {
+    order: 12,
+    testament: '구약',
+    book: '열왕기하',
+    english: '2 Kings',
+    chapters: '1-25장',
+    pages: 9,
+    description: '엘리사의 사역과 북이스라엘과 남유다의 멸망까지 이어지는 역사를 살펴봅니다.',
+    file: 'kcw-bible-summary-12-2-kings.pdf',
+  },
 ];
